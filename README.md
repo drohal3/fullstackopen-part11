@@ -134,3 +134,10 @@ A couple of hints. One of the errors is best to be fixed by specifying proper en
 Make the necessary changes to the source code so that the lint workflow passes. Once you commit new code the workflow will run again and you will see updated output where all is green again.
 
 **Solution:**
+The linting problems were fixed as instructed.
+
+## Exercise 11.7 Building and testing
+**Task:**
+Let's expand on the previous workflow that currently does the linting of the code. Edit the workflow and similarly to the lint command add commands for build and test.
+
+**Solution:**
