@@ -112,3 +112,14 @@ Extend the workflow with steps that print the date and current directory content
 Both of these are easy steps, and just running commands [date](https://man7.org/linux/man-pages/man1/date.1.html) and [ls](https://man7.org/linux/man-pages/man1/ls.1.html) will do the trick.
 
 As the output of command `ls -l` shows, by default, the virtual environment that runs our workflow does not have any code!
+
+**Solution:**
+The task was completed as instructed.
+
+## Exercise 11.5 Linting workflow
+**Task:**
+Implement or copy-paste the "Lint" workflow and commit it to the repository. Use a new yml file for this workflow, you may call it e.g. pipeline.yml.
+
+Push your code and navigate to "Actions" tab and click on your newly created workflow on the left. You should see that the workflow run has failed.
+
+**Solution:**
