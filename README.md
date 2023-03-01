@@ -141,3 +141,13 @@ The linting problems were fixed as instructed.
 Let's expand on the previous workflow that currently does the linting of the code. Edit the workflow and similarly to the lint command add commands for build and test.
 
 **Solution:**
+The task was completed as instructed.
+
+## Exercise 11.8 Back to green
+**Task:**
+Investigate which test fails and fix the issue in the code (do not change the tests).
+
+Once you have fixed all the issues and the Pokedex is bug-free, the workflow run will succeed and show green!
+
+**Solution:**
+Pokemon page links were fixed in the code.
