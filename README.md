@@ -103,3 +103,12 @@ You should see the "Hello World!" message as an output. If that's the case then 
 Note that GitHub Actions also informs you on the exact environment (operating system, and its setup) where your workflow is run. This is important since if something surprising happens, it makes debugging so much easier if you can reproduce all the steps in your machine!
 
 **Solution:**
+The task was completed as instructed.
+
+## Exercise 11.4 Date and directory contents
+**Task:**
+Extend the workflow with steps that print the date and current directory content in long format.
+
+Both of these are easy steps, and just running commands [date](https://man7.org/linux/man-pages/man1/date.1.html) and [ls](https://man7.org/linux/man-pages/man1/ls.1.html) will do the trick.
+
+As the output of command `ls -l` shows, by default, the virtual environment that runs our workflow does not have any code!
