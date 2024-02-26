@@ -69,6 +69,6 @@ jobs:
         with:
           severity: error
           text: Deploy of Pokedex's new version failed!
-          description: Triggered by ${{ github.triggering_actor }}
+          description: Triggered by ${{ github.triggering_actor }}, commit urls ${{ join(github.event.commits.*.url) }}
           details: Deploy Failed!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
