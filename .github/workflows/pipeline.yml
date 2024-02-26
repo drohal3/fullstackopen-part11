@@ -58,8 +58,8 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: pull requests
         env:
-          PULL_REQUESTS: ${{ toJson(github.event.pull_request) }}
-        run: echo "PULL_REQUESTS"
+          PULL_REQUESTS_MESSAGE: ${{ toJson(github.event.pull_request.body) }}
+        run: echo "PULL_REQUESTS_MESSAGE"
       - name: commit messages
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
