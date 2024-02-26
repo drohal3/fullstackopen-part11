@@ -50,7 +50,7 @@ jobs:
           DEFAULT_BUMP: patch # by default, increase the last number
   notify: #
     if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'#skip') }}
-#    needs: [ tag_release ]
+    needs: [ tag_release ]
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
@@ -64,7 +64,7 @@ jobs:
           details: Deploy was successful!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: notify fail
-        if: ${{ success() }}
+        if: ${{ !success() }}
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: error
