@@ -591,3 +591,55 @@ Push some more code to your branch, and ensure that the deployment step is not e
 
 **Solution:**
 Updated [pipeline.yml](.github/workflows/pipeline.yml) to trigger deploy step only on push event.
+
+## 11.15 Adding versioning
+**Task:**
+We will extend our workflow with one more step:
+```
+- name: Bump version and push tag
+  uses: anothrNick/github-tag-action@1.64.0
+  env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+Note: you should use the most recent version of the action, see [here](https://github.com/anothrNick/github-tag-action) if a more recent version is available.
+
+We're passing an environmental variable secrets.GITHUB_TOKEN to the action. As it is third party action, it needs the token for authentication in your repository. You can read more [here](https://docs.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token) about authentication in GitHub Actions.
+
+You may end up having "Tag was not created properly" error which is most likely caused by the token not having write permission to your repository.
+
+The [anothrNick/github-tag-action](https://github.com/anothrNick/github-tag-action) action accepts some environment variables that modify the way the action tags your releases. You can look at these in the [README](https://github.com/anothrNick/github-tag-action) and see what suits your needs.
+
+As you can see from the documentation by default your releases will receive a minor bump, meaning that the middle number will be incremented.
+
+Modify the configuration above so that each new version is by default a patch bump in the version number, so that by default, the last number is increased.
+
+Remember that we want only to bump the version when the change happens to the main branch! So add a similar if condition to prevent version bumps on pull request as was done in [Exercise 11.14](https://fullstackopen.com/en/part11/keeping_green#exercises-11-13-11-14) to prevent deployment on pull request related events.
+
+Complete now the workflow. Do not just add it as another step, but configure it as a separate job that [depends](https://docs.github.com/en/actions/using-workflows/advanced-workflow-features#creating-dependent-jobs) on the job that takes care of linting, testing and deployment. So change your workflow definition as follows:
+```
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+jobs:
+  simple_deployment_pipeline:
+    runs-on: ubuntu-20.04
+    steps:
+      // steps here
+  tag_release:
+    needs: [simple_deployment_pipeline]
+    runs-on: ubuntu-20.04
+    steps:
+      // steps here
+```
+As was mentioned [earlier](https://fullstackopen.com/en/part11/getting_started_with_git_hub_actions#getting-started-with-workflows) jobs of a workflow are executed in parallel but since we want the linting, testing and deployment to be done first, we set a dependency that the tag_release waits the another job to execute first since we do not want to tag the release unless it passes tests and is deployed.
+
+If you're uncertain of the configuration, you can set DRY_RUN to true, which will make the action output the next version number without creating or tagging the release!
+
+**Solution:**
