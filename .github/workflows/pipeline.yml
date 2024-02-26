@@ -49,10 +49,10 @@ jobs:
           INITIAL_VERSION: 0.0.0 # default
           DEFAULT_BUMP: patch # by default, increase the last number
   notify:
-#    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'#skip') }}
+    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'#skip') }}
 #    needs: [ tag_release ]
     runs-on: ubuntu-20.04
-    steps:
+    steps: #
       - uses: actions/checkout@v3
       - name: notify success
         if: ${{ success() }}
@@ -62,4 +62,13 @@ jobs:
           text: New version of Pokedex deployed
           description: By ${{ github.triggering_actor }}
           details: Deploy was successful!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: notify fail
+        if: ${{ success() }}
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: error
+          text: Deploy of Pokedex's new version failed!
+          description: Triggered by ${{ github.triggering_actor }}, commit urls ${{ join(github.event.commits.*.url) }}
+          details: Deploy Failed!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
