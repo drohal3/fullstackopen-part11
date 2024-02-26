@@ -470,3 +470,73 @@ Checking DNS configuration for muddy-thunder-3474-icy-shape-7791.fly.dev
 Visit your newly deployed app at https://muddy-thunder-3474-icy-shape-7791.fly.dev/
 ```
 
+## Exercise 11.12 Health check
+**Task**
+
+Each deployment in Fly.io creates a [release](https://fly.io/docs/flyctl/releases/). Releases can be checked from the command line:
+```
+$ flyctl releases
+VERSION	STATUS  	DESCRIPTION	USER           	DATE
+v18    	complete	Release    	mluukkai@iki.fi	16h56m ago
+v17    	complete	Release    	mluukkai@iki.fi	17h3m ago
+v16    	complete	Release    	mluukkai@iki.fi	21h22m ago
+v15    	complete	Release    	mluukkai@iki.fi	21h25m ago
+v14    	complete	Release    	mluukkai@iki.fi	21h34m ago
+```
+It is essential to ensure that a deployment ends up in a succeeding release, where the app is in healthy functional state. Fortunately, Fly.io has several configuration options that take care of the application health check.
+
+If we change the app as follows, it fails to start:
+```
+app.listen(PORT, () => {
+this_causes_error
+// eslint-disable-next-line no-console
+console.log(`server started on port ${PORT}`)
+})
+```
+In this case, the deployment fails:
+```
+$ flyctl releases
+VERSION	STATUS  	DESCRIPTION	USER           	DATE
+v19    	failed  	Release    	mluukkai@iki.fi	3m52s ago
+v18    	complete	Release    	mluukkai@iki.fi	16h56m ago
+v17    	complete	Release    	mluukkai@iki.fi	17h3m ago
+v16    	complete	Release    	mluukkai@iki.fi	21h22m ago
+v15    	complete	Release    	mluukkai@iki.fi	21h25m ago
+v14    	complete	Release    	mluukkai@iki.fi	21h34m ago
+```
+The app however stays up and running, Fly.io does not replace the functioning version (v18) with the broken one (v19).
+
+Let us consider the following change
+```
+// start app in a wrong port
+app.listen(PORT + 1, () => {
+// eslint-disable-next-line no-console
+console.log(`server started on port ${PORT}`)
+})
+```
+Now the app starts but it is connected to the wrong port, so the service will not be functional. Fly.io thinks this is a successful deployment, so it deploys the app in a broken state.
+
+One possibility to prevent broken deployments is to use an HTTP-level check defined in section [http_service.http_checks](https://fly.io/docs/reference/configuration/#http_service-checks). This type of check can be used to ensure that the app for real is in a functional state.
+
+Add a simple endpoint for doing an application health check to the backend. You may e.g. copy this code:
+```
+app.get('/health', (req, res) => {
+res.send('ok')
+})
+```
+Configure then an [HTTP check](https://fly.io/docs/reference/configuration/#http_service-checks) that ensures the health of the deployments based on the HTTP request to the defined health check endpoint.
+
+You also need to set the [deployment strategy](https://fly.io/docs/reference/configuration/#picking-a-deployment-strategy) (in the file fly.toml) of the app to be either canary or bluegreen. These strategies ensure that only an app with a healthy state gets deployed.
+
+Ensure that GitHub Actions notices if a deployment breaks your application.
+
+You may simulate this e.g. as follows:
+```
+app.get('/health', (req, res) => {
+// eslint-disable-next-line no-constant-condition
+if (true) throw('error...  ')
+res.send('ok')
+})
+```
+
+**Solution:**
