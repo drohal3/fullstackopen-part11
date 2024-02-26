@@ -47,4 +47,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: false
           INITIAL_VERSION: 0.0.0 # default
-          DEFAULT_BUMP: patch
+          DEFAULT_BUMP: patch # by default, increase the last number
