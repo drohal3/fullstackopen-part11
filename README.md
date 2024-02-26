@@ -449,3 +449,24 @@ ${{secrets.FLY_API_TOKEN}}
 
 
 **Solution**
+Updated [pipeline.yml](.github/workflows/pipeline.yml). Deploy was successful after merging a PR to master branch.
+
+...from logs:
+```
+Running muddy-thunder-3474-icy-shape-7791 release_command: npm run build
+> Created release_command machine e784ee72c54558
+> Waiting for e784ee72c54558 to have state: started
+> Machine e784ee72c54558 has state: started
+> Waiting for e784ee72c54558 to have state: destroyed
+> Machine e784ee72c54558 has state: destroyed
+> Waiting for e784ee72c54558 to get exit event
+✔ release_command e784ee72c54558 completed successfully
+Updating existing machines in 'muddy-thunder-3474-icy-shape-7791' with rolling strategy
+> Updating d8d9919cee9778 [app]
+> Updating d8d9919cee9778 [app]
+✔ Machine d8d9919cee9778 [app] update succeeded
+Checking DNS configuration for muddy-thunder-3474-icy-shape-7791.fly.dev
+
+Visit your newly deployed app at https://muddy-thunder-3474-icy-shape-7791.fly.dev/
+```
+
