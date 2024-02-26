@@ -376,4 +376,76 @@ Configured and tested as instructed.
 > For this reason, I will redo that part to ensure it still works.
 
 ## Redo Exercise 11.10 Deploying your application to Fly.io
+*Before completing the exercise, the pipeline is green. The previously done 11.10 is removed.*
 
+**Task:**
+
+Setup your application in [Fly.io](https://fly.io/) hosting service like the one we did in [part 3](https://fullstackopen.com/en/part3/deploying_app_to_internet#application-to-the-internet).
+
+In contrast to part 3, in this part we do not deploy the code to Fly.io ourselves (with the command flyctl deploy), we let the GitHub Actions workflow do that for us.
+
+Before going to the automated deployment, we shall ensure in this exercise that the app can be deployed manually.
+
+So, create a new app in Fly.io. After that generate a Fly.io API token with the command
+```
+flyctl auth token
+```
+You'll need the token soon for your deployment workflow so save it somewhere (but do not commit that to GitHub)!
+
+As said, before setting up the deployment pipeline in the next exercise we will now ensure that a manual deployment with the command flyctl deploy works.
+
+A couple of changes are needed.
+
+The configuration file fly.toml should be modified to include the following:
+```
+[env]
+PORT = "3000" # add this where PORT matches the internal_port below
+
+[processes]
+app = "node app.js" # add this
+
+[http_service]
+internal_port = 3000
+force_https = true
+auto_stop_machines = true
+auto_start_machines = true
+min_machines_running = 0
+processes = ["app"]
+```
+In [processes](https://fly.io/docs/reference/configuration/#the-processes-section) we define the command that starts the application. Without this change Fly.io just starts the React dev server and that causes it to shut down since the app itself does not start up. We will also set up the PORT to be passed to the app as an environment variable.
+
+We also need to alter the file .dockerignore a bit, the next line should be removed:
+```
+dist
+```
+If the line is not removed, the product build of the frontend does not get downloaded to the Fly.io server.
+
+Deployment should now work if the production build exists in the local machine, that is, the command npm build is run.
+
+Before moving to the next exercise, make sure that the manual deployment with the command `flyctl deploy` works!
+
+**Solution:**
+I could not build the app locally due to mismatch in node.js versions, and no willingness to go through workarounds.
+Also, building Dockerfile was not an easy option since some of the packages were not available for ARM architecture.
+However, I used an older built (from before I restarted the work on the course) which worked.
+
+## Redo Exercise 11.11 Automatic deployments
+**Task:**
+Extend the workflow with a step to deploy your application to Fly.io by following the advice given [here](https://fly.io/docs/app-guides/continuous-deployment-with-github-actions/).
+
+Note that the GitHub Action should create the production build (with npm run build) before the deployment step!
+
+You need the authorization token that you just created for the deployment. The proper way to pass it's value to GitHub Actions is to use Repository secrets.
+
+Now the workflow can access the token value as follows:
+```
+${{secrets.FLY_API_TOKEN}}
+```
+
+> Remember that it is always essential to keep an eye on what is happening 
+> in server logs when playing around with product deployments, 
+> so use `flyctl logs` early and use it often. 
+> No, use it all the time!
+
+
+**Solution**
