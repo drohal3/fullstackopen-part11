@@ -706,3 +706,17 @@ You should protect it to:
 
 **Solution:**
 The branch protection rule was added.
+
+## Exercise 11.18 Build success/failure notification action
+**Task:**
+
+You can find quite a few third-party actions from [GitHub Action Marketplace](https://github.com/marketplace?type=actions) by using the search phrase [discord](https://github.com/marketplace?type=actions&query=discord). Pick one for this exercise. My choice was [discord-webhook-notify](https://github.com/marketplace/actions/discord-webhook-notify) since it has quite many stars and decent documentation.
+
+Setup the action so that it gives two types of notifications:
+
+- A success indication if a new version gets deployed
+- An error indication if a build fails
+
+In the case of an error, the notification should be a bit more verbose to help developers find quickly which is the commit that caused it.
+
+See [here](https://docs.github.com/en/actions/learn-github-actions/expressions#status-check-functions) how to check the job status!
