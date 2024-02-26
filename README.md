@@ -592,7 +592,7 @@ Push some more code to your branch, and ensure that the deployment step is not e
 **Solution:**
 Updated [pipeline.yml](.github/workflows/pipeline.yml) to trigger deploy step only on push event.
 
-## 11.15 Adding versioning
+## Exercise 11.15 Adding versioning
 **Task:**
 We will extend our workflow with one more step:
 ```
@@ -644,3 +644,53 @@ If you're uncertain of the configuration, you can set DRY_RUN to true, which wil
 
 **Solution:**
 Implemented as instructed. Tak [0.0.1](https://github.com/drohal3/fullstackopen-part11/releases/tag/0.0.1) automatically created.
+
+## Exercise 11.16 Skipping a commit for tagging and deployment
+**Task:**
+In general, the more often you deploy the main branch to production, the better. However, there might be some valid reasons sometimes to skip a particular commit or a merged pull request to become tagged and released to production.
+
+Modify your setup so that if a commit message in a pull request contains #skip, the merge will not be deployed to production and it is not tagged with a version number.
+
+Hints:
+
+The easiest way to implement this is to alter the if conditions of the relevant steps. Similarly to [exercise 11-14](https://fullstackopen.com/en/part11/keeping_green#exercises-11-13-11-14) you can get the relevant information from the [GitHub context](https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#github-context) of the workflow.
+
+You might take this as a starting point:
+```
+name: Testing stuff
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  a_test_job:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: github context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: commits
+        env:
+          COMMITS: ${{ toJson(github.event.commits) }}
+        run: echo "$COMMITS"
+      - name: commit messages
+        env:
+          COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
+        run: echo "$COMMIT_MESSAGES"
+```
+
+See what gets printed in the workflow log!
+
+Note that you can access the commits and commit messages only when pushing or merging to the main branch, so for pull requests the github.event.commits is empty. It is anyway not needed, since we want to skip the step altogether for pull requests.
+
+You most likely need functions [contains](https://docs.github.com/en/actions/learn-github-actions/expressions#contains) and [join](https://docs.github.com/en/actions/learn-github-actions/expressions#join) for your if condition.
+
+Developing workflows is not easy, and quite often the only option is trial and error. It might actually be advisable to have a separate repository for getting the configuration right, and when it is done, to copy the right configurations to the actual repository.
+
+It would also be possible to install a tool such as [act](https://github.com/nektos/act) that makes it possible to run your workflows locally. Unless you end up using more involved use cases like creating your [own custom actions](https://docs.github.com/en/free-pro-team@latest/actions/creating-actions), going through the burden of setting up a tool such as act is most likely not worth the trouble.
+
+**Solution:**
