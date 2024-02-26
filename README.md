@@ -643,3 +643,4 @@ As was mentioned [earlier](https://fullstackopen.com/en/part11/getting_started_w
 If you're uncertain of the configuration, you can set DRY_RUN to true, which will make the action output the next version number without creating or tagging the release!
 
 **Solution:**
+Implemented as instructed. Tak [0.0.1](https://github.com/drohal3/fullstackopen-part11/releases/tag/0.0.1) automatically created.
