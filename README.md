@@ -429,3 +429,23 @@ I could not build the app locally due to mismatch in node.js versions, and no wi
 Also, building Dockerfile was not an easy option since some of the packages were not available for ARM architecture.
 However, I used an older built (from before I restarted the work on the course) which worked.
 
+## Redo Exercise 11.11 Automatic deployments
+**Task:**
+Extend the workflow with a step to deploy your application to Fly.io by following the advice given [here](https://fly.io/docs/app-guides/continuous-deployment-with-github-actions/).
+
+Note that the GitHub Action should create the production build (with npm run build) before the deployment step!
+
+You need the authorization token that you just created for the deployment. The proper way to pass it's value to GitHub Actions is to use Repository secrets.
+
+Now the workflow can access the token value as follows:
+```
+${{secrets.FLY_API_TOKEN}}
+```
+
+> Remember that it is always essential to keep an eye on what is happening 
+> in server logs when playing around with product deployments, 
+> so use `flyctl logs` early and use it often. 
+> No, use it all the time!
+
+
+**Solution**
