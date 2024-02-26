@@ -53,9 +53,13 @@ jobs:
 #    needs: [ tag_release ]
     runs-on: ubuntu-20.04
     steps:
-      - name: notify
+      - uses: actions/checkout@v3
+      - name: notify success
+        if: ${{ success() }}
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: info
-          details: Test Succeeded!
+          text: New version of Pokedex deployed
+          description: By ${{ github.triggering_actor }}
+          details: Deploy was successful!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
