@@ -48,7 +48,7 @@ jobs:
           WITH_V: false
           INITIAL_VERSION: 0.0.0 # default
           DEFAULT_BUMP: patch
-  test_job:
+  test_job: #
     runs-on: ubuntu-20.04
     if: ${{ contains(join(github.event.commits.*.message)),"#skip") }}
     steps:
