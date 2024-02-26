@@ -63,3 +63,12 @@ jobs:
           description: By ${{ github.triggering_actor }}
           details: Deploy was successful!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: notify fail
+        if: ${{ !success() }}
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: error
+          text: Deploy of Pokedex's new version failed!
+          description: Triggered by ${{ github.triggering_actor }}, commit urls:: ${{ join(github.event.commits.*.url) }}
+          details: Deploy Failed!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
