@@ -31,12 +31,12 @@ jobs:
           wait-on: http://localhost:5000 # changed from 5000
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: deploy
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'#skip') }}
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
   tag_release:
-    if: ${{ github.event_name == 'push'}}
+    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'#skip') }}
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
     steps:
@@ -48,20 +48,3 @@ jobs:
           WITH_V: false
           INITIAL_VERSION: 0.0.0 # default
           DEFAULT_BUMP: patch
-  test_job:
-    if: ${{ !contains(join(github.event.commits.*.message),'#skip') }}
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v4
-      - name: github context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: pull requests
-        env:
-          PULL_REQUESTS_MESSAGE: ${{ join(github.event.commits.*.message) }}
-        run: echo "PULL_REQUESTS_MESSAGE"
-      - name: commit messages
-        env:
-          COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
-        run: echo "$COMMIT_MESSAGES"
