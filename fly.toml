@@ -15,7 +15,7 @@ kill_timeout = '5s'
 
 [deploy]
   release_command = 'npm run build'
-  strategy = "canary"
+  strategy = "bluegreen"
 
 [env]
   PORT = "3000" # add this where PORT matches the internal_port below
