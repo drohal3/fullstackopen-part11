@@ -694,3 +694,15 @@ Developing workflows is not easy, and quite often the only option is trial and e
 It would also be possible to install a tool such as [act](https://github.com/nektos/act) that makes it possible to run your workflows locally. Unless you end up using more involved use cases like creating your [own custom actions](https://docs.github.com/en/free-pro-team@latest/actions/creating-actions), going through the burden of setting up a tool such as act is most likely not worth the trouble.
 
 **Solution:**
+[pipline.yml](.github/workflows/pipeline.yml) modified as instructed and worked as expected.
+
+## Exercise 11.17 Adding protection to your main branch
+**Task:**
+Add protection to your main branch.
+
+You should protect it to:
+- Require all pull request to be approved before merging
+- Require all status checks to pass before merging
+
+**Solution:**
+The branch protection rule was added.
