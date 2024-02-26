@@ -50,7 +50,7 @@ jobs:
           DEFAULT_BUMP: patch
   test_job: #
     runs-on: ubuntu-20.04
-    if: ${{ contains(join(github.event.commits.*.message)),"#skip") }}
+    if: ${{ contains(join(github.event.commits.*.message),','),'#skip') }}
     steps:
       - uses: actions/checkout@v4
       - name: github context
