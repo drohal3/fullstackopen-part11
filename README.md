@@ -555,3 +555,5 @@ v5      complete        Release         rohal.dominik.123@gmail.com     24m15s a
 v4      complete        Release         rohal.dominik.123@gmail.com     37m7s ago       
 v3      complete        Release         rohal.dominik.123@gmail.com     1h1m ago        
 ```
+
+*The application was fixed back to green state.*
