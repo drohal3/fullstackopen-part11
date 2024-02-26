@@ -48,8 +48,8 @@ jobs:
           WITH_V: false
           INITIAL_VERSION: 0.0.0 # default
           DEFAULT_BUMP: patch # by default, increase the last number
-  notify:
-    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' , '),'#skip') }}
+  notify: #
+    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'#skip') }}
 #    needs: [ tag_release ]
     runs-on: ubuntu-20.04
     steps:
@@ -69,6 +69,6 @@ jobs:
         with:
           severity: error
           text: Deploy of Pokedex's new version failed!
-          description: Triggered by ${{ github.triggering_actor }}, commit urls ${{ join(github.event.commits.*.url) }}
+          description: Triggered by ${{ github.triggering_actor }}, commit urls ${{ join(github.event.commits.*.url, ' , ') }}
           details: Deploy Failed!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
