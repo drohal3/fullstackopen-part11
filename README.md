@@ -540,3 +540,18 @@ res.send('ok')
 ```
 
 **Solution:**
+Implemented http health check as instructed.
+simulated error in /health endpoint failed the deploy:
+```
+2024-02-26T10:47:42.435 app[0806994b69e908] arn [info] WARN hallpass exited, pid: 307, status: signal: 15 (SIGTERM)
+```
+
+```
+% flyctl releases
+VERSION STATUS          DESCRIPTION     USER                            DATE       
+v7      failed          Release         rohal.dominik.123@gmail.com     7m45s ago       
+v6      complete        Release         rohal.dominik.123@gmail.com     17m30s ago      
+v5      complete        Release         rohal.dominik.123@gmail.com     24m15s ago      
+v4      complete        Release         rohal.dominik.123@gmail.com     37m7s ago       
+v3      complete        Release         rohal.dominik.123@gmail.com     1h1m ago        
+```
