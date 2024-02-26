@@ -50,7 +50,6 @@ jobs:
           DEFAULT_BUMP: patch
   test_job: #
     runs-on: ubuntu-20.04
-    if: ${{ contains(join(github.event.commits.*.message),','),'#skip') }}
     steps:
       - uses: actions/checkout@v4
       - name: github context
@@ -59,7 +58,7 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: pull requests
         env:
-          PULL_REQUESTS_MESSAGE: ${{ toJson(github.event) }}
+          PULL_REQUESTS_MESSAGE: ${{ join(github.event.commits.*.message) }}
         run: echo "PULL_REQUESTS_MESSAGE"
       - name: commit messages
         env:
