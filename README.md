@@ -540,3 +540,54 @@ res.send('ok')
 ```
 
 **Solution:**
+Implemented http health check as instructed.
+simulated error in /health endpoint failed the deploy:
+```
+2024-02-26T10:47:42.435 app[0806994b69e908] arn [info] WARN hallpass exited, pid: 307, status: signal: 15 (SIGTERM)
+```
+
+```
+% flyctl releases
+VERSION STATUS          DESCRIPTION     USER                            DATE       
+v7      failed          Release         rohal.dominik.123@gmail.com     7m45s ago       
+v6      complete        Release         rohal.dominik.123@gmail.com     17m30s ago      
+v5      complete        Release         rohal.dominik.123@gmail.com     24m15s ago      
+v4      complete        Release         rohal.dominik.123@gmail.com     37m7s ago       
+v3      complete        Release         rohal.dominik.123@gmail.com     1h1m ago        
+```
+
+*The application was fixed back to green state.*
+
+## Exercise 11.13 Pull request
+**Task:**
+
+Update the trigger of the existing workflow as suggested above to run on new pull requests to your main branch.
+
+Create a new branch, commit your changes, and open a pull request to your main branch.
+
+If you have not worked with branches before, check e.g. [this tutorial](https://www.atlassian.com/git/tutorials/using-branches) to get started.
+
+Note that when you open the pull request, make sure that you select here your own repository as the destination base repository. By default, the selection is the original repository by https://github.com/fullstack-hy2020 and you do not want to do that.
+
+In the "Conversation" tab of the pull request you should see your latest commit(s) and the yellow status for checks in progress.
+
+**Solution:**
+Updated [pipeline.yml](.github/workflows/pipeline.yml) to trigger pipeline when PR is opened.
+
+## Exercise 11.14 Run deployment step only for the main branch
+**Task:**
+
+All looks good, but there is actually a pretty serious problem with the current workflow. All the steps, including the deployment, are run also for pull requests. This is surely something we do not want!
+
+Fortunately, there is an easy solution for the problem! We can add an [if condition](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsif) to the deployment step, which ensures that the step is executed only when the code is being merged or pushed to the main branch.
+
+The workflow [context](https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#contexts) gives various kinds of information about the code the workflow is run.
+
+The relevant information is found in [GitHub context](https://docs.github.com/en/actions/learn-github-actions/contexts#github-context), the field event_name tells us what is the "name" of the event that triggered the workflow. When a pull request is merged, the name of the event is somehow paradoxically push, the same event that happens when pushing the code to the repository. Thus, we get the desired behavior by adding the following condition to the step that deploys the code:
+```
+if: ${{ github.event_name == 'push' }}
+```
+Push some more code to your branch, and ensure that the deployment step is not executed anymore. Then merge the branch to the main branch and make sure that the deployment happens. 
+
+**Solution:**
+Updated [pipeline.yml](.github/workflows/pipeline.yml) to trigger deploy step only on push event.
