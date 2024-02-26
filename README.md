@@ -557,3 +557,19 @@ v3      complete        Release         rohal.dominik.123@gmail.com     1h1m ago
 ```
 
 *The application was fixed back to green state.*
+
+## Exercise 11.13 Pull request
+**Task:**
+
+Update the trigger of the existing workflow as suggested above to run on new pull requests to your main branch.
+
+Create a new branch, commit your changes, and open a pull request to your main branch.
+
+If you have not worked with branches before, check e.g. [this tutorial](https://www.atlassian.com/git/tutorials/using-branches) to get started.
+
+Note that when you open the pull request, make sure that you select here your own repository as the destination base repository. By default, the selection is the original repository by https://github.com/fullstack-hy2020 and you do not want to do that.
+
+In the "Conversation" tab of the pull request you should see your latest commit(s) and the yellow status for checks in progress.
+
+**Solution:**
+Updated [pipeline.yml](.github/workflows/pipeline.yml) to trigger pipeline when PR is opened.
