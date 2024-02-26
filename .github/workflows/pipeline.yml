@@ -49,6 +49,7 @@ jobs:
           INITIAL_VERSION: 0.0.0 # default
           DEFAULT_BUMP: patch
   test_job: #
+    if: ${{ !contains(join(github.event.commits.*.message),'#skip') }}
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
