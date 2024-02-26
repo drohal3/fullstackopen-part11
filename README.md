@@ -720,3 +720,6 @@ Setup the action so that it gives two types of notifications:
 In the case of an error, the notification should be a bit more verbose to help developers find quickly which is the commit that caused it.
 
 See [here](https://docs.github.com/en/actions/learn-github-actions/expressions#status-check-functions) how to check the job status!
+
+**Solution:**
+Implemented as instructed.
