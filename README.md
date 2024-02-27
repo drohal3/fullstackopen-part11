@@ -738,4 +738,4 @@ Note that unfortunately it takes quite long until GitHub Actions starts the sche
 Note also that once you get this working, it is best to drop the ping frequency (to max once in 24 hours) or disable the rule altogether since otherwise your health check may consume all your monthly free hours.
 
 **Solution:**
-Simulated with trigger on push
+Simulated with trigger on push, tested schedule overnight, disabled schedule after finishing the exercise. I simulated failed check with /healthfail API endpoint.
