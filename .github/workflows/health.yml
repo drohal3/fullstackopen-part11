@@ -1,8 +1,11 @@
 name: Health check
 
 on:
-  schedule:
-    - cron: '30 23 * * *'
+  push:
+    branches:
+      - exercise-11-19
+#  schedule:
+#    - cron: '30 23 * * *'
 
 jobs:
   health_check:
@@ -12,4 +15,4 @@ jobs:
         uses: jtalk/url-health-check-action@v4
         with:
           # Check the following URLs one by one sequentially
-          url: https://muddy-thunder-3474-icy-shape-7791.fly.dev/health
+          url: https://muddy-thunder-3474-icy-shape-7791.fly.dev/healthfail
