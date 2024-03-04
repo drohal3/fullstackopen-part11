@@ -770,3 +770,24 @@ frontend: https://github.com/drohal3/cpcvis-frontend
 - frontend for sensor data monitoring web app implemented in React + Vite, Typescript
   - the pipeline builds an image and pushes it to [dockerhub](https://hub.docker.com/repository/docker/drohal3/cpcvis-frontend/general)
   - the Dockerfile is optimized - multistage pipeline with alpine 
+
+> The applications are not deployed at the time of submitting the exercise due to exceeding free tier in fly.io and requiring at least 2 machines + database to run my project. However, at the time of reviewing the submission it might be that the application is deployed in AWS ECS.
+>
+> However, I am of the opinion, I demonstrated ability to implement health check and utilizing some of the useful tools in the previous exercises.
+
+
+## Exercise 11.21 Protect your main branch and ask for pull request
+**Task:**
+
+Protect the main branch of the repository where you did the previous exercise. This time prevent also the administrators from merging the code without a review.
+
+Do a pull request and ask GitHub user [mluukkai](https://github.com/mluukkai) to review your code. Once the review is done, merge your code to the main branch. Note that the reviewer needs to be a collaborator in the repository. Ping us in Discord to get the review, and to include the collaboration invite link to the message.
+
+Please note what was written above, include the link to the collaboration invite in the ping, not the link to the pull request.
+
+Then you are done!
+
+**Solution:**
+Completed as instructed.
+
+Used repository: https://github.com/drohal3/cpcvis-backend
