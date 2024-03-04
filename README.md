@@ -738,4 +738,56 @@ Note that unfortunately it takes quite long until GitHub Actions starts the sche
 Note also that once you get this working, it is best to drop the ping frequency (to max once in 24 hours) or disable the rule altogether since otherwise your health check may consume all your monthly free hours.
 
 **Solution:**
-Simulated with trigger on push
+Simulated with trigger on push, tested schedule overnight, disabled schedule after finishing the exercise. I simulated failed check with /healthfail API endpoint.
+
+
+## Exercise 11.20 Your own pipeline
+**Task:**
+
+Build a similar CI/CD-pipeline for some of your own applications. Some of the good candidates are the phonebook app that was built in parts 2 and 3 of the course, or the blogapp built in parts 4 and 5, or the Redux anecdotes built in part 6. You may also use some app of your own for this exercise.
+
+You most likely need to do some restructuring to get all the pieces together. A logical first step is to store both the frontend and backend code in the same repository. This is not a requirement but it is recommended since it makes things much more simple.
+
+One possible repository structure would be to have the backend at the root of the repository and the frontend as a subdirectory. You can also "copy paste" the structure of the example app of this part or try out the example app mentioned in part 7.
+
+It is perhaps best to create a new repository for this exercise and simply copy and paste the old code there. In real life, you most likely would do this all in the old repository but now "a fresh start" makes things easier.
+
+This is a long and perhaps quite a tough exercise, but this kind of situation where you have a "legacy code" and you need to build proper deployment pipeline is quite common in real life!
+
+Obviously, this exercise is not done in the same repository as the previous exercises. Since you can return only one repository to the submission system, put a link of the other repository to the one you fill into the submission form.
+
+**Solution:**
+
+Implemented pipelines in my own repositories. The repositories are private and the work on the project is still in progress at the time of submitting of the exercise. However, this does not prevent from implementing deployment pipelines.
+
+backend: https://github.com/drohal3/cpcvis-backend
+
+- backend for web APP implemented in FastAPI
+  - The pipeline checks for linting errors and runs tests on pull requests. On push to main branch, if all checks are ok, it builds an image and pushes it to [dockerhub](https://hub.docker.com/repository/docker/drohal3/cpcvis-backend/general)
+
+frontend: https://github.com/drohal3/cpcvis-frontend
+
+- frontend for sensor data monitoring web app implemented in React + Vite, Typescript
+  - the pipeline builds an image and pushes it to [dockerhub](https://hub.docker.com/repository/docker/drohal3/cpcvis-frontend/general)
+  - the Dockerfile is optimized - multistage pipeline with alpine 
+
+> The applications are not deployed at the time of submitting the exercise due to exceeding free tier in fly.io and requiring at least 2 machines + database to run my project. However, at the time of reviewing the submission it might be that the application is deployed in AWS ECS.
+>
+> However, I am of the opinion, I demonstrated ability to implement health check and utilizing some of the useful tools in the previous exercises.
+
+
+## Exercise 11.21 Protect your main branch and ask for pull request
+**Task:**
+
+Protect the main branch of the repository where you did the previous exercise. This time prevent also the administrators from merging the code without a review.
+
+Do a pull request and ask GitHub user [mluukkai](https://github.com/mluukkai) to review your code. Once the review is done, merge your code to the main branch. Note that the reviewer needs to be a collaborator in the repository. Ping us in Discord to get the review, and to include the collaboration invite link to the message.
+
+Please note what was written above, include the link to the collaboration invite in the ping, not the link to the pull request.
+
+Then you are done!
+
+**Solution:**
+Completed as instructed.
+
+Used repository: https://github.com/drohal3/cpcvis-backend
