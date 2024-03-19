@@ -367,7 +367,7 @@ Before moving to next exercise, fix your deployment and ensure that the applicat
 **Solution:**
 Configured and tested as instructed.
 
-# Restarted work on this course
+# Resumed work on this course
 > I did not notice any major changes in the content of the course from the version 
 > when I completed exercises 11.1 - 11.9.
 > For this reason, I picked up from where I finished.
